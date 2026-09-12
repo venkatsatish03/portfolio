@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      ;(() => {
+        try {
+          const storageKey = 'portfolio-theme'
+          const storedTheme = window.localStorage.getItem(storageKey)
+          const theme =
+            storedTheme === 'light' || storedTheme === 'dark'
+              ? storedTheme
+              : window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'light'
+                : 'dark'
+
+          document.documentElement.setAttribute('data-theme', theme)
+        } catch {
+          document.documentElement.setAttribute('data-theme', 'dark')
+        }
+      })()
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      M. Venkat Satish | Software Engineer · Cybersecurity &amp; Blockchain
+    </title>
+    <meta
+      name="description"
+      content="Portfolio of M. Venkat Satish — Software Engineer specializing in Cybersecurity, Blockchain, and Applied AI. B.Tech CSE at KL University, patent co-inventor, TSAROLABS intern."
+    />
+    <meta
+      name="keywords"
+      content="M. Venkat Satish, Software Engineer, Cybersecurity, Blockchain, Solidity, Algorand, React, Python, FastAPI, YOLOv8, Portfolio"
+    />
+    <meta name="author" content="M. Venkat Satish" />
+    <meta name="theme-color" content="#080c14" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="M. Venkat Satish | Software Engineer · Cybersecurity &amp; Blockchain"
+    />
+    <meta
+      property="og:description"
+      content="Building trustworthy, production-oriented systems across cybersecurity, blockchain, and applied ML."
+    />
+    <meta property="og:site_name" content="M. Venkat Satish Portfolio" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="M. Venkat Satish | Software Engineer · Cybersecurity &amp; Blockchain"
+    />
+    <meta
+      name="twitter:description"
+      content="Building trustworthy, production-oriented systems across cybersecurity, blockchain, and applied ML."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-background focus:shadow-soft"
+    >
+      Skip to main content
+    </a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
