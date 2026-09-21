@@ -25,12 +25,20 @@ export interface ExperienceItem {
   readonly points: readonly string[]
 }
 
+export interface ProjectLink {
+  readonly label: string
+  readonly url: string
+  readonly type?: 'live' | 'github' | 'demo' | 'external'
+}
+
 export interface ProjectItem {
   readonly title: string
   readonly subtitle: string
   readonly tags: readonly string[]
   readonly description: string
   readonly badge?: string
+  readonly logoUrl?: string
+  readonly links?: readonly ProjectLink[]
 }
 
 export interface SkillCategory {
@@ -146,6 +154,24 @@ export const projects: readonly ProjectItem[] = [
     subtitle: 'Decentralized Healthcare Platform',
     tags: ['Blockchain', 'Solidity', 'React.js', 'Python'],
     badge: 'Provisional Patent · Co-Inventor',
+    logoUrl: '/images/logo.jpeg',
+    links: [
+      {
+        label: 'Live Application 1',
+        url: 'https://ojasraksha.vercel.app/',
+        type: 'live',
+      },
+      {
+        label: 'Live Application 2',
+        url: 'https://ojas-raksha-algo.vercel.app/',
+        type: 'live',
+      },
+      {
+        label: 'GitHub Repository',
+        url: 'https://github.com/Yashwanth112004/Hedera-APEX-Hackathon',
+        type: 'github',
+      },
+    ],
     description:
       'Patient-controlled medical records platform with consent-based access control, role-based dashboards for 5 stakeholder types, and immutable audit logs tracking 100% of data access events. Enforced data privacy through off-chain encrypted storage aligned with GDPR principles.',
   },
@@ -154,6 +180,18 @@ export const projects: readonly ProjectItem[] = [
     subtitle: 'Credential Verification Platform',
     tags: ['Algorand', 'Smart Contracts', 'React.js', 'Node.js'],
     badge: 'Algorand Hackathon Semifinalist',
+    links: [
+      {
+        label: 'Live Application',
+        url: 'https://collabchain1.vercel.app/',
+        type: 'live',
+      },
+      {
+        label: 'GitHub Repository',
+        url: 'https://github.com/blockedge-tech/collabchain',
+        type: 'github',
+      },
+    ],
     description:
       'Blockchain application for tamper-proof digital credential issuance with real-time on-chain verification for 3 institution types.',
   },
@@ -162,6 +200,13 @@ export const projects: readonly ProjectItem[] = [
     subtitle: 'Computer Vision Pipeline',
     tags: ['YOLOv8', 'EasyOCR', 'Real-ESRGAN', 'FastAPI', 'React.js'],
     badge: 'Production Internship Project',
+    links: [
+      {
+        label: 'GitHub Repository',
+        url: 'https://github.com/venkatsatish03/LRLPR',
+        type: 'github',
+      },
+    ],
     description:
       'Full-stack LPR system with custom-trained YOLOv8 model (mAP50: 0.936), image super-resolution quality gating, FastAPI backend, and Next.js frontend for live monitoring.',
   },
@@ -176,6 +221,13 @@ export const projects: readonly ProjectItem[] = [
     title: 'Forensic Shield v0.4',
     subtitle: 'USB Security & Data Integrity Monitor',
     tags: ['Python', 'Flask', 'SHA-256'],
+    links: [
+      {
+        label: 'GitHub Repository',
+        url: 'https://github.com/pranav3005-apple/Forensic-Sheild',
+        type: 'github',
+      },
+    ],
     description:
       'USB threat-detection utility performing SHA-256 hash verification on all files upon device connection, with a Flask real-time monitoring dashboard.',
   },

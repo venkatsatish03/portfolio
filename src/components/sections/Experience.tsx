@@ -53,10 +53,10 @@ const experienceTags: Record<string, string[]> = {
 export function Experience() {
   return (
     <section
-      className="relative border-t border-border/70 bg-background px-4 py-24 sm:px-6 lg:px-8"
+      className="py-24 sm:py-32 border-t border-border/70"
       id="experience"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           variants={containerVariants}
@@ -64,20 +64,12 @@ export function Experience() {
           whileInView="visible"
         >
           {/* Section Header */}
-          <motion.div className="mb-16" variants={itemVariants}>
-            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent-secondary">
-              <span>02</span>
-              <span className="h-px w-6 bg-accent-secondary" />
-              <span>Career &amp; Leadership</span>
-            </div>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
-              Experience &amp; Track Record
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+            <div className="editorial-tag">04 / CAREER &amp; TRACK RECORD</div>
+            <h2 className="editorial-title text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary text-left md:text-right">
+              Where I've built &amp; led.
             </h2>
-            <p className="mt-2 max-w-2xl text-base text-secondary">
-              Hands-on engineering in applied computer vision, OSINT platforms,
-              full-stack systems, and blockchain leadership.
-            </p>
-          </motion.div>
+          </div>
 
           {/* Timeline */}
           <div className="relative border-l border-border/80 pl-6 sm:pl-10 space-y-12 max-w-5xl ml-2 sm:ml-6">
@@ -95,16 +87,16 @@ export function Experience() {
                   <span
                     className={`absolute -left-[31px] sm:-left-[47px] top-6 flex h-4 w-4 items-center justify-center rounded-full border-2 border-background shadow-soft transition-transform duration-300 group-hover:scale-125 ${
                       isLeadership
-                        ? 'bg-amber-400 ring-4 ring-amber-400/20'
-                        : 'bg-accent-secondary ring-4 ring-accent-secondary/20'
+                        ? 'bg-accent ring-4 ring-accent/20'
+                        : 'bg-primary ring-4 ring-primary/20'
                     }`}
                   />
 
                   {/* Card Content */}
-                  <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-card transition-all duration-300 hover:border-accent-secondary/50 hover:shadow-soft">
+                  <div className="rounded-2xl border border-border/70 bg-surface p-6 sm:p-8 shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-md">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/60 pb-5">
                       <div>
-                        <span className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-secondary">
+                        <span className="font-mono text-xs font-semibold uppercase tracking-wider text-accent">
                           {exp.organization}
                         </span>
                         <h3 className="mt-1 text-xl font-bold tracking-tight text-primary sm:text-2xl">
@@ -113,10 +105,10 @@ export function Experience() {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium text-secondary">
+                        <span className="inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-mono text-secondary">
                           {exp.duration}
                         </span>
-                        <span className="inline-flex rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-medium text-muted">
+                        <span className="inline-flex rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-mono text-muted">
                           {exp.type}
                         </span>
                       </div>
@@ -129,7 +121,7 @@ export function Experience() {
                           className="flex items-start gap-3 text-sm leading-relaxed text-secondary sm:text-base"
                           key={index}
                         >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-secondary" />
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                           <span>{point}</span>
                         </li>
                       ))}
@@ -140,10 +132,10 @@ export function Experience() {
                       <div className="mt-6 pt-5 border-t border-border/50 flex flex-wrap gap-2">
                         {tags.map((tag) => (
                           <span
-                            className="rounded-md border border-border bg-surface-raised px-2.5 py-1 font-mono text-xs text-secondary transition-colors hover:border-accent-secondary/40 hover:text-primary"
+                            className="rounded-md border border-border/60 bg-surface-raised px-2.5 py-1 font-mono text-xs text-secondary transition-colors hover:border-accent/40 hover:text-primary"
                             key={tag}
                           >
-                            {tag}
+                            #{tag}
                           </span>
                         ))}
                       </div>

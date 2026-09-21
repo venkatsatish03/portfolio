@@ -1,77 +1,20 @@
 import { useState } from 'react'
-import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { projects, personal, type ProjectItem } from '@/data/portfolioData'
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-}
-
-const gridVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.04,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: 8,
-    transition: {
-      duration: 0.15,
-      ease: 'easeInOut',
-    },
-  },
-}
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 16, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-}
-
-type ProjectCategory =
-  | 'All'
-  | 'Blockchain & Web3'
-  | 'AI & Computer Vision'
-  | 'Cybersecurity & Systems'
-  | 'Full-Stack'
+import { motion, AnimatePresence } from 'framer-motion'
+import { projects, type ProjectItem } from '@/data/portfolioData'
 
 interface ProjectDetailMeta {
-  readonly category: ProjectCategory
+  readonly index: string
+  readonly year: string
+  readonly category: string
   readonly keyMetric?: string
   readonly architecturePoints?: readonly string[]
 }
 
 const projectMetadataMap: Record<string, ProjectDetailMeta> = {
   OjasRaksha: {
-    category: 'Blockchain & Web3',
+    index: '01',
+    year: '2026',
+    category: 'DECENTRALIZED HEALTHCARE · PATENT',
     keyMetric: '100% Immutable Audit Trail',
     architecturePoints: [
       'Provisional Patent Co-Inventor with custom smart contract access gating',
@@ -80,7 +23,9 @@ const projectMetadataMap: Record<string, ProjectDetailMeta> = {
     ],
   },
   CollabChain: {
-    category: 'Blockchain & Web3',
+    index: '02',
+    year: '2025',
+    category: 'CREDENTIAL VERIFICATION · ALGORAND',
     keyMetric: 'Real-Time Verification',
     architecturePoints: [
       'Algorand blockchain smart contract architecture for anti-tamper credentials',
@@ -89,7 +34,9 @@ const projectMetadataMap: Record<string, ProjectDetailMeta> = {
     ],
   },
   'License Plate Recognition (LPR)': {
-    category: 'AI & Computer Vision',
+    index: '03',
+    year: '2026',
+    category: 'COMPUTER VISION · YOLOv8 · TSAROLABS',
     keyMetric: 'mAP50: 0.936 Precision',
     architecturePoints: [
       'Custom fine-tuned YOLOv8 object detector coupled with EasyOCR',
@@ -98,325 +45,513 @@ const projectMetadataMap: Record<string, ProjectDetailMeta> = {
     ],
   },
   StockWise: {
-    category: 'AI & Computer Vision',
+    index: '04',
+    year: '2025',
+    category: 'AI & PREDICTIVE MODELING',
     keyMetric: '70–80% Directional Accuracy',
     architecturePoints: [
-      'Scikit-learn classification ensemble processing multivariate price histories',
-      'NLP sentiment classification pipeline evaluating live financial news releases',
-      'Dynamic React visualization dashboards tracking signal predictions',
+      'Financial sentiment classification engine using NLP text processing',
+      'Ensemble models utilizing Scikit-learn regressors on historical price points',
+      'Interactive dashboard for visualizing sentiment-driven predictive swings',
     ],
   },
   'Forensic Shield v0.4': {
-    category: 'Cybersecurity & Systems',
-    keyMetric: 'Real-Time SHA-256 Verifier',
+    index: '05',
+    year: '2025',
+    category: 'SYSTEM INTEGRITY & CYBERSECURITY',
+    keyMetric: 'Instant Threat Alerting',
     architecturePoints: [
-      'Automatic OS-level USB mounting event hook capturing foreign storage drives',
-      'High-throughput SHA-256 checksum comparison against threat intelligence hashes',
-      'Flask monitoring dashboard flagging unauthorized executable alterations',
+      'Automated SHA-256 cryptographic hashing pipeline executing on media mount',
+      'Threat telemetry logging with known malicious checksum cross-referencing',
+      'Real-time Flask dashboard providing immediate file-tampering notifications',
     ],
   },
   'Restaurant Table Reservation System': {
-    category: 'Full-Stack',
-    keyMetric: 'PostgreSQL Index Tuned',
+    index: '06',
+    year: '2025',
+    category: 'FULL-STACK SYSTEMS & REST APIs',
+    keyMetric: 'Zero Overbooking Conflict Guarantee',
     architecturePoints: [
-      'Dual-stack service integration combining Express.js and Spring Boot modules',
-      'Concurrency-safe booking transactions with PostgreSQL table index optimization',
-      'Full stateful session management with JWT and responsive React layout',
+      'High-concurrency reservation engine backed by transactional PostgreSQL schemas',
+      'Role-delimited customer reservation flow with instant confirmation tokens',
+      'Admin operations suite with live capacity metrics and dynamic table allocation',
     ],
   },
 }
 
-const categories: readonly ProjectCategory[] = [
-  'All',
-  'Blockchain & Web3',
-  'AI & Computer Vision',
-  'Cybersecurity & Systems',
-  'Full-Stack',
-]
+function ProjectLogo({
+  logoUrl,
+  title,
+  fallback,
+  className = 'h-full w-full object-cover',
+}: {
+  logoUrl?: string
+  title: string
+  fallback: React.ReactNode
+  className?: string
+}) {
+  const [error, setError] = useState(false)
+
+  if (logoUrl && !error) {
+    return (
+      <img
+        alt={`${title} Logo`}
+        className={className}
+        onError={() => setError(true)}
+        src={logoUrl}
+      />
+    )
+  }
+
+  return <>{fallback}</>
+}
 
 export function Projects() {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('All')
-  const [expandedProject, setExpandedProject] = useState<string | null>(null)
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(
+    null,
+  )
+  const [showAll, setShowAll] = useState(false)
 
-  const filteredProjects = projects.filter((project) => {
-    if (activeCategory === 'All') return true
-    const meta = projectMetadataMap[project.title]
-    return meta?.category === activeCategory
-  })
+  // Primary 3 featured projects matching the screenshot asymmetric grid
+  const featuredProjects = projects.slice(0, 3)
+  const moreProjects = projects.slice(3)
 
   return (
-    <section
-      className="relative border-t border-border/70 bg-background/60 px-4 py-24 sm:px-6 lg:px-8"
-      id="projects"
-    >
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial="hidden"
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.1 }}
-          whileInView="visible"
-        >
-          {/* Header */}
-          <motion.div className="mb-12" variants={itemVariants}>
-            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent-secondary">
-              <span>03</span>
-              <span className="h-px w-6 bg-accent-secondary" />
-              <span>Engineering Portfolio</span>
-            </div>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
-              Featured Systems &amp; Projects
-            </h2>
-            <p className="mt-2 max-w-2xl text-base text-secondary">
-              Production systems, patent co-inventions, blockchain applications,
-              and computer vision pipelines.
-            </p>
+    <section className="py-24 sm:py-32" id="projects">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+        {/* Section Header matching image */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+          <div className="editorial-tag">01 / SELECTED WORK</div>
+          <h2 className="editorial-title text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary text-left md:text-right">
+            A few things I've made.
+          </h2>
+        </div>
 
-            {/* Category Filter Pills */}
-            <div className="mt-8 flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <button
-                  aria-pressed={activeCategory === cat}
-                  className={`rounded-xl px-4 py-2 text-xs font-medium transition-all ${
-                    activeCategory === cat
-                      ? 'bg-accent-secondary text-background font-semibold shadow-soft'
-                      : 'border border-border bg-surface text-secondary hover:border-accent-secondary/50 hover:text-primary'
-                  }`}
-                  key={cat}
-                  onClick={() => {
-                    setActiveCategory(cat)
-                    setExpandedProject(null)
-                  }}
-                  type="button"
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Note specifically for Full-Stack */}
-            <AnimatePresence>
-              {activeCategory === 'Full-Stack' && (
-                <motion.div
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 flex items-start gap-3 rounded-xl border border-accent-secondary/35 bg-accent-secondary/10 p-4 text-xs sm:text-sm text-secondary backdrop-blur-sm max-w-3xl shadow-soft"
-                  exit={{ opacity: 0, y: -8 }}
-                  initial={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <svg
-                    aria-hidden="true"
-                    className="h-5 w-5 shrink-0 text-accent-secondary mt-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                  <p className="leading-relaxed">
-                    <strong className="font-semibold text-accent-secondary">
-                      Note:
-                    </strong>{' '}
-                    The project shown here is categorized specifically as a
-                    Full-Stack project. However, several of the projects listed
-                    under other technology stacks are also fully developed
-                    full-stack applications, with their categorization
-                    highlighting the primary technologies used.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-
-          {/* Projects Grid */}
-          <AnimatePresence mode="wait">
+        {/* Asymmetric Editorial Grid matching reference image */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+          {/* Left Column: Featured Large Card (OjasRaksha) */}
+          {featuredProjects[0] && (
             <motion.div
-              animate="visible"
-              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-              exit="exit"
-              initial="hidden"
-              key={activeCategory}
-              variants={gridVariants}
+              className="lg:col-span-7 group cursor-pointer"
+              initial={{ opacity: 0, y: 30 }}
+              onClick={() => setSelectedProject(featuredProjects[0])}
+              viewport={{ once: true }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
-              {filteredProjects.map((project: ProjectItem) => {
-                const meta = projectMetadataMap[project.title]
-                const isExpanded = expandedProject === project.title
-                const isPatent = project.badge?.includes('Patent')
-                const isHackathon = project.badge?.includes('Hackathon')
+              {/* Card Image / Preview Frame */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-surface border border-border/70 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+                {/* Top Corner Meta */}
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
+                    {featuredProjects[0].badge || 'Patent Co-Inventor'}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-muted">
+                    01
+                  </span>
+                </div>
 
+                {/* Minimalist Visual Abstract Graphic */}
+                <div className="my-auto flex flex-col items-center justify-center text-center py-6">
+                  <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl border border-border/80 shadow-md flex items-center justify-center text-accent mb-4 group-hover:scale-105 transition-transform duration-300 overflow-hidden bg-surface">
+                    <ProjectLogo
+                      className="h-full w-full object-cover"
+                      fallback={
+                        <svg
+                          className="h-8 w-8"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      }
+                      logoUrl={featuredProjects[0].logoUrl}
+                      title={featuredProjects[0].title}
+                    />
+                  </div>
+                  <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-primary">
+                    {featuredProjects[0].title}
+                  </h4>
+                  <p className="mt-1 text-xs sm:text-sm text-secondary max-w-md">
+                    {featuredProjects[0].subtitle}
+                  </p>
+                </div>
+
+                {/* Bottom Tags */}
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
+                  {featuredProjects[0].tags.map((tag) => (
+                    <span
+                      className="text-[11px] font-mono font-medium text-secondary"
+                      key={tag}
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Title & Metadata below card */}
+              <div className="mt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-2xl font-bold text-primary group-hover:text-accent transition-colors">
+                    {featuredProjects[0].title}
+                  </h3>
+                  <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                    ↗
+                  </span>
+                </div>
+                <div className="text-xs font-mono text-muted uppercase tracking-wider">
+                  {projectMetadataMap[featuredProjects[0].title]?.year} /{' '}
+                  {projectMetadataMap[featuredProjects[0].title]?.category}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Right Column: Stacked Two Cards */}
+          <div className="lg:col-span-5 flex flex-col justify-between gap-8 lg:gap-10">
+            {/* Card 2: CollabChain */}
+            {featuredProjects[1] && (
+              <motion.div
+                className="group cursor-pointer"
+                initial={{ opacity: 0, y: 30 }}
+                onClick={() => setSelectedProject(featuredProjects[1])}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+              >
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-surface border border-border/70 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
+                      {featuredProjects[1].badge || 'Algorand Hackathon'}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-muted">
+                      02
+                    </span>
+                  </div>
+
+                  <div className="my-auto flex flex-col items-center justify-center text-center py-3">
+                    <div className="h-12 w-12 rounded-xl bg-primary/5 border border-border flex items-center justify-center text-accent mb-2 group-hover:scale-110 transition-transform duration-300">
+                      <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <h4 className="text-lg font-bold text-primary">
+                      {featuredProjects[1].title}
+                    </h4>
+                    <p className="text-xs text-secondary">
+                      {featuredProjects[1].subtitle}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-border/50">
+                    {featuredProjects[1].tags.slice(0, 3).map((tag) => (
+                      <span
+                        className="text-[11px] font-mono text-secondary"
+                        key={tag}
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-baseline justify-between gap-2">
+                  <h3 className="text-xl font-bold text-primary group-hover:text-accent transition-colors flex items-center gap-1.5">
+                    <span>{featuredProjects[1].title}</span>
+                    <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                      ↗
+                    </span>
+                  </h3>
+                  <div className="text-[11px] font-mono text-muted uppercase">
+                    {projectMetadataMap[featuredProjects[1].title]?.year} /{' '}
+                    ALGORAND
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Card 3: License Plate Recognition */}
+            {featuredProjects[2] && (
+              <motion.div
+                className="group cursor-pointer"
+                initial={{ opacity: 0, y: 30 }}
+                onClick={() => setSelectedProject(featuredProjects[2])}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+              >
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-surface border border-border/70 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
+                      {featuredProjects[2].badge || 'TSAROLABS'}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-muted">
+                      03
+                    </span>
+                  </div>
+
+                  <div className="my-auto flex flex-col items-center justify-center text-center py-3">
+                    <div className="h-12 w-12 rounded-xl bg-primary/5 border border-border flex items-center justify-center text-accent mb-2 group-hover:scale-110 transition-transform duration-300">
+                      <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <h4 className="text-lg font-bold text-primary">
+                      {featuredProjects[2].title}
+                    </h4>
+                    <p className="text-xs text-secondary">
+                      {featuredProjects[2].subtitle}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-border/50">
+                    {featuredProjects[2].tags.slice(0, 3).map((tag) => (
+                      <span
+                        className="text-[11px] font-mono text-secondary"
+                        key={tag}
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-baseline justify-between gap-2">
+                  <h3 className="text-xl font-bold text-primary group-hover:text-accent transition-colors flex items-center gap-1.5">
+                    <span>{featuredProjects[2].title}</span>
+                    <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                      ↗
+                    </span>
+                  </h3>
+                  <div className="text-[11px] font-mono text-muted uppercase">
+                    {projectMetadataMap[featuredProjects[2].title]?.year} / AI
+                    &amp; CV
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
+
+        {/* Expandable Section for Remaining Projects */}
+        <div className="mt-16 text-center">
+          <button
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs font-bold uppercase tracking-wider text-primary hover:border-accent hover:text-accent transition-all duration-200"
+            onClick={() => setShowAll(!showAll)}
+            type="button"
+          >
+            <span>
+              {showAll ? 'Show Fewer Projects' : 'Explore All 6 Projects'}
+            </span>
+            <span>{showAll ? '↑' : '↓'}</span>
+          </button>
+        </div>
+
+        {/* Additional Projects Grid */}
+        <AnimatePresence>
+          {showAll && (
+            <motion.div
+              animate={{ opacity: 1, height: 'auto' }}
+              className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 overflow-hidden"
+              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              {moreProjects.map((project) => {
+                const meta = projectMetadataMap[project.title]
                 return (
-                  <motion.article
-                    className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-6 shadow-card transition-all duration-300 hover:border-accent-secondary/60 hover:shadow-soft"
+                  <div
+                    className="group cursor-pointer rounded-2xl border border-border/70 bg-surface p-6 flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition-all"
                     key={project.title}
-                    variants={cardVariants}
+                    onClick={() => setSelectedProject(project)}
                   >
                     <div>
-                      {/* Badge & Category */}
-                      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                        <span className="font-mono text-[11px] font-semibold text-accent-secondary uppercase tracking-wider">
-                          {meta?.category ?? 'Engineering'}
+                      <div className="flex items-center justify-between text-xs font-mono text-muted mb-4">
+                        <span className="text-accent font-semibold uppercase">
+                          {meta?.year}
                         </span>
-                        {project.badge && (
-                          <span
-                            className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
-                              isPatent
-                                ? 'border border-amber-500/40 bg-amber-500/10 text-amber-400'
-                                : isHackathon
-                                  ? 'border border-purple-500/40 bg-purple-500/10 text-purple-400'
-                                  : 'border border-accent-secondary/40 bg-accent-secondary/10 text-accent-secondary'
-                            }`}
-                          >
-                            {project.badge}
-                          </span>
-                        )}
+                        <span>{meta?.index}</span>
                       </div>
-
-                      {/* Title & Subtitle */}
-                      <h3 className="text-xl font-bold tracking-tight text-primary">
+                      <h4 className="text-xl font-bold text-primary group-hover:text-accent transition-colors">
                         {project.title}
-                      </h3>
-                      <p className="mt-1 font-mono text-xs text-muted">
+                      </h4>
+                      <p className="mt-1 text-xs font-mono text-muted">
                         {project.subtitle}
                       </p>
-
-                      {/* Key Metric Pill if available */}
-                      {meta?.keyMetric && (
-                        <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-technical/30 bg-technical/10 px-2.5 py-1 text-xs font-semibold text-technical">
-                          <svg
-                            className="h-3.5 w-3.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M13 10V3L4 14h7v7l9-11h-7z"
-                            />
-                          </svg>
-                          <span>{meta.keyMetric}</span>
-                        </div>
-                      )}
-
-                      {/* Description */}
-                      <p className="mt-4 text-sm leading-relaxed text-secondary">
+                      <p className="mt-4 text-xs text-secondary leading-relaxed line-clamp-3">
                         {project.description}
                       </p>
-
-                      {/* Expandable Architecture Details */}
-                      {meta?.architecturePoints && (
-                        <div className="mt-4">
-                          <button
-                            className="inline-flex items-center gap-1 font-mono text-xs text-accent-secondary hover:underline"
-                            onClick={() =>
-                              setExpandedProject(
-                                isExpanded ? null : project.title,
-                              )
-                            }
-                            type="button"
-                          >
-                            <span>
-                              {isExpanded
-                                ? 'Hide Architecture'
-                                : 'View Architecture'}
-                            </span>
-                            <svg
-                              className={`h-3 w-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M19 9l-7 7-7-7"
-                              />
-                            </svg>
-                          </button>
-
-                          {isExpanded && (
-                            <motion.ul
-                              animate={{ opacity: 1, height: 'auto' }}
-                              className="mt-3 space-y-2 border-l border-accent-secondary/40 pl-3 pt-1 text-xs text-muted"
-                              exit={{ opacity: 0, height: 0 }}
-                              initial={{ opacity: 0, height: 0 }}
-                            >
-                              {meta.architecturePoints.map((point, i) => (
-                                <li className="leading-relaxed" key={i}>
-                                  • {point}
-                                </li>
-                              ))}
-                            </motion.ul>
-                          )}
-                        </div>
-                      )}
                     </div>
 
-                    {/* Footer: Tags & Action */}
-                    <div className="mt-6 pt-4 border-t border-border/50">
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {project.tags.map((tag) => (
-                          <span
-                            className="rounded-md border border-border bg-surface-raised px-2 py-0.5 font-mono text-[11px] text-secondary"
-                            key={tag}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between text-xs">
-                        <a
-                          aria-label={`View code for ${project.title} on GitHub`}
-                          className="inline-flex items-center gap-1.5 font-medium text-secondary hover:text-accent-secondary transition-colors"
-                          href={personal.github}
-                          rel="noreferrer"
-                          target="_blank"
+                    <div className="mt-6 pt-4 border-t border-border/50 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          className="text-[10px] font-mono text-secondary"
+                          key={tag}
                         >
-                          <svg
-                            className="h-4 w-4"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.16c-3.22.7-3.9-1.38-3.9-1.38-.53-1.35-1.29-1.71-1.29-1.71-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.74-1.55-2.57-.29-5.27-1.28-5.27-5.72 0-1.27.45-2.3 1.2-3.11-.12-.29-.52-1.48.11-3.07 0 0 .98-.31 3.17 1.19A10.9 10.9 0 0 1 12 5.9c.98 0 1.96.13 2.88.39 2.2-1.5 3.17-1.19 3.17-1.19.64 1.59.24 2.78.12 3.07.75.82 1.2 1.85 1.2 3.11 0 4.45-2.7 5.43-5.28 5.72.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.55A11.5 11.5 0 0 0 12 .5Z" />
-                          </svg>
-                          <span>Repository</span>
-                        </a>
-
-                        <a
-                          aria-label={`Project link for ${project.title}`}
-                          className="inline-flex items-center gap-1 font-medium text-accent-secondary hover:underline"
-                          href="#contact"
-                        >
-                          <span>Inquire Details</span>
-                          <svg
-                            className="h-3 w-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M14 5l7 7m0 0l-7 7m7-7H3"
-                            />
-                          </svg>
-                        </a>
-                      </div>
+                          #{tag}
+                        </span>
+                      ))}
                     </div>
-                  </motion.article>
+                  </div>
                 )
               })}
             </motion.div>
-          </AnimatePresence>
-        </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Project Detail Modal */}
+        <AnimatePresence>
+          {selectedProject && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+              <motion.div
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative max-w-2xl w-full rounded-2xl bg-surface border border-border p-6 sm:p-8 shadow-2xl text-primary max-h-[85vh] overflow-y-auto"
+                exit={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+              >
+                <div className="flex items-center justify-between pb-4 border-b border-border/60">
+                  <div className="flex items-center gap-3">
+                    {selectedProject.logoUrl && (
+                      <div className="h-12 w-12 rounded-xl border border-border/80 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm bg-surface">
+                        <img
+                          alt={`${selectedProject.title} logo`}
+                          className="h-full w-full object-cover"
+                          src={selectedProject.logoUrl}
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <span className="text-xs font-mono text-accent font-semibold uppercase">
+                        {projectMetadataMap[selectedProject.title]?.category}
+                      </span>
+                      <h3 className="text-2xl font-bold text-primary mt-1">
+                        {selectedProject.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <button
+                    aria-label="Close modal"
+                    className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted hover:text-primary hover:border-primary transition-colors text-lg"
+                    onClick={() => setSelectedProject(null)}
+                    type="button"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className="mt-6 space-y-4">
+                  <p className="text-sm sm:text-base leading-relaxed text-secondary">
+                    {selectedProject.description}
+                  </p>
+
+                  {projectMetadataMap[selectedProject.title]?.keyMetric && (
+                    <div className="inline-flex items-center gap-2 rounded-lg bg-technical/10 border border-technical/30 px-3 py-1.5 text-xs font-semibold text-technical">
+                      <span>Key Metric:</span>
+                      <span>
+                        {projectMetadataMap[selectedProject.title]?.keyMetric}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Project External / Live Links Action Bar */}
+                  {selectedProject.links && selectedProject.links.length > 0 && (
+                    <div className="pt-2 pb-1 flex flex-wrap items-center gap-3">
+                      {selectedProject.links.map((link) => {
+                        const isGithub = link.type === 'github'
+                        return (
+                          <a
+                            className={
+                              isGithub
+                                ? 'group inline-flex items-center gap-2 rounded-xl border border-border bg-surface-raised px-4 py-2.5 text-xs font-mono font-semibold text-primary transition-all hover:bg-primary hover:text-background hover:border-primary hover:scale-[1.02] active:scale-[0.98] shadow-sm'
+                                : 'group inline-flex items-center gap-2 rounded-xl bg-primary text-background px-4 py-2.5 text-xs font-mono font-semibold transition-all hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-sm'
+                            }
+                            href={link.url}
+                            key={link.label}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            {isGithub ? (
+                              <svg
+                                className="h-4 w-4 fill-current"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                              </svg>
+                            ) : (
+                              <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-technical opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-technical" />
+                              </span>
+                            )}
+                            <span>{link.label}</span>
+                            <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                              ↗
+                            </span>
+                          </a>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {projectMetadataMap[selectedProject.title]
+                    ?.architecturePoints && (
+                    <div className="mt-4 pt-4 border-t border-border/50">
+                      <h4 className="text-xs font-mono uppercase tracking-wider font-semibold text-primary mb-2">
+                        Architecture &amp; Highlights:
+                      </h4>
+                      <ul className="space-y-2 text-xs sm:text-sm text-secondary">
+                        {projectMetadataMap[
+                          selectedProject.title
+                        ]?.architecturePoints?.map((pt) => (
+                          <li className="flex items-start gap-2" key={pt}>
+                            <span className="text-accent mt-0.5">•</span>
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <div className="mt-6 pt-4 border-t border-border/50 flex flex-wrap gap-2">
+                    {selectedProject.tags.map((tag) => (
+                      <span
+                        className="rounded-md bg-surface-raised px-2.5 py-1 text-xs font-mono text-secondary"
+                        key={tag}
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )

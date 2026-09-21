@@ -1,278 +1,136 @@
-import { motion, type Variants } from 'framer-motion'
-import { aboutSection, education, targetRoles } from '@/data/portfolioData'
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-}
-
-function HighlightIcon({ id }: { id: string }) {
-  switch (id) {
-    case 'education':
-    case 'gpa':
-      return (
-        <svg
-          className="h-5 w-5 text-accent-secondary"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 14l9-5-9-5-9 5 9 5z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
-          />
-        </svg>
-      )
-    case 'internship':
-      return (
-        <svg
-          className="h-5 w-5 text-blue-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <rect
-            height="14"
-            rx="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            width="20"
-            x="2"
-            y="7"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"
-          />
-        </svg>
-      )
-    case 'patent':
-      return (
-        <svg
-          className="h-5 w-5 text-amber-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-          />
-        </svg>
-      )
-    case 'leadership':
-      return (
-        <svg
-          className="h-5 w-5 text-emerald-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-      )
-    default:
-      return (
-        <svg
-          className="h-5 w-5 text-purple-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M13 10V3L4 14h7v7l9-11h-7z"
-          />
-        </svg>
-      )
-  }
-}
+import { motion } from 'framer-motion'
+import { aboutSection, personal, education } from '@/data/portfolioData'
 
 export function About() {
   return (
-    <section
-      className="relative border-t border-border/70 bg-background/50 px-4 py-24 sm:px-6 lg:px-8"
-      id={aboutSection.sectionId}
-    >
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial="hidden"
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.15 }}
-          whileInView="visible"
-        >
-          {/* Section Header */}
-          <motion.div className="mb-14" variants={itemVariants}>
-            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent-secondary">
-              <span>01</span>
-              <span className="h-px w-6 bg-accent-secondary" />
-              <span>Background &amp; Philosophy</span>
+    <section className="py-24 sm:py-32 border-t border-border/70" id="about">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+        {/* Section Header matching image */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+          <div className="editorial-tag">02 / ABOUT ME</div>
+          <h2 className="editorial-title text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary text-left md:text-right">
+            Thoughtful by default.
+            <br />
+            Curious by nature.
+          </h2>
+        </div>
+
+        {/* Two-Column Editorial Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: Portrait & Credential Frame */}
+          <motion.div
+            className="lg:col-span-5"
+            initial={{ opacity: 0, y: 24 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}
+          >
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-surface border border-border/80 p-6 flex flex-col justify-between shadow-sm">
+              <div className="flex items-center justify-between text-xs font-mono text-muted">
+                <span className="text-accent font-semibold uppercase tracking-wider">
+                  VENKAT SATISH
+                </span>
+                <span>'23 – '27</span>
+              </div>
+
+              {/* Graphic / Avatar Portrait Showcase */}
+              <div className="my-auto flex flex-col items-center justify-center text-center py-8">
+                <div className="relative mb-6">
+                  <div className="h-28 w-28 sm:h-32 sm:w-32 rounded-full bg-surface-raised border border-border flex items-center justify-center text-primary font-display text-4xl font-extrabold shadow-inner">
+                    <span>VS</span>
+                  </div>
+                  <span className="absolute bottom-1 right-1 h-6 w-6 rounded-full bg-accent border-2 border-surface flex items-center justify-center text-[10px] text-white font-bold">
+                    ✓
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-bold text-primary">
+                  {personal.fullName}
+                </h3>
+                <p className="text-xs font-mono text-muted mt-1 max-w-xs">
+                  KL University · B.Tech CSE (Cyber &amp; Blockchain)
+                </p>
+                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-3.5 py-1 text-xs font-mono text-secondary bg-surface-raised">
+                  <span className="h-2 w-2 rounded-full bg-technical" />
+                  <span>GPA {education.gpa}</span>
+                </div>
+              </div>
+
+              {/* Bottom Card Footer */}
+              <div className="pt-4 border-t border-border/60 flex items-center justify-between text-xs font-mono text-muted">
+                <span>Portrait of Venkat Satish</span>
+                <span>HYD, IN</span>
+              </div>
             </div>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
-              {aboutSection.heading}
-            </h2>
-            <p className="mt-2 max-w-2xl text-base text-secondary">
-              Bridging the gap between theory and resilient, battle-tested
-              software.
-            </p>
           </motion.div>
 
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-            {/* Left: Bio & Target Roles (7 Cols) */}
-            <motion.div
-              className="lg:col-span-7 space-y-8"
-              variants={itemVariants}
-            >
-              <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-card">
-                <h3 className="font-mono text-sm font-semibold uppercase tracking-wider text-accent-secondary">
-                  Core Mission
-                </h3>
-                <p className="mt-4 text-base leading-relaxed text-secondary sm:text-lg">
-                  {aboutSection.bio}
-                </p>
+          {/* Right Column: Bio, Philosophy & Highlights */}
+          <motion.div
+            className="lg:col-span-7 flex flex-col justify-between"
+            initial={{ opacity: 0, y: 24 }}
+            transition={{ delay: 0.1 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}
+          >
+            {/* Lead Narrative */}
+            <h3 className="editorial-title text-2xl sm:text-3xl font-bold text-primary leading-snug">
+              I'm a software engineer focused on the space between security,
+              blockchain, and intelligent systems.
+            </h3>
 
-                {/* Core Pillars */}
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-xl border border-border/70 bg-surface-raised/60 p-4">
-                    <div className="flex items-center gap-2.5 font-mono text-xs font-semibold text-primary">
-                      <span className="h-2 w-2 rounded-full bg-accent-secondary" />
-                      Adversarial Resilience
-                    </div>
-                    <p className="mt-2 text-xs leading-5 text-secondary">
-                      Prioritizing edge cases, untrusted inputs, and
-                      security-first architecture over quick superficial demos.
-                    </p>
+            {/* Narrative Paragraphs */}
+            <div className="mt-6 space-y-4 text-base sm:text-lg leading-relaxed text-secondary font-normal">
+              <p>{aboutSection.bio}</p>
+              <p>
+                Whether designing patient-controlled consent protocols or
+                training neural detectors for license plate recognition, my
+                priority is building production-grade solutions that perform
+                predictably under pressure.
+              </p>
+            </div>
+
+            {/* Core Highlights List */}
+            <div className="mt-8 pt-8 border-t border-border/70">
+              <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent mb-4">
+                Profile Highlights &amp; Accolades
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {aboutSection.highlights.slice(0, 6).map((item) => (
+                  <div
+                    className="flex items-start gap-2.5 rounded-xl border border-border/60 bg-surface/60 p-3 text-xs text-secondary hover:border-accent/30 transition-colors"
+                    key={item.id}
+                  >
+                    <span className="text-base leading-none">{item.icon}</span>
+                    <span className="leading-snug">{item.text}</span>
                   </div>
-
-                  <div className="rounded-xl border border-border/70 bg-surface-raised/60 p-4">
-                    <div className="flex items-center gap-2.5 font-mono text-xs font-semibold text-primary">
-                      <span className="h-2 w-2 rounded-full bg-technical" />
-                      Verifiable Privacy
-                    </div>
-                    <p className="mt-2 text-xs leading-5 text-secondary">
-                      Enforcing GDPR-aligned off-chain encryption paired with
-                      tamper-proof blockchain audit trails.
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
+            </div>
 
-              {/* Target Roles Grid */}
-              <div className="rounded-2xl border border-border bg-surface p-6 shadow-card">
-                <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted">
-                  Target Engineering Roles
-                </h3>
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {targetRoles.map((role) => (
-                    <div
-                      className="flex items-center gap-3 rounded-xl border border-border/70 bg-surface-raised px-4 py-3 text-sm font-medium text-primary shadow-soft transition-all hover:border-accent-secondary/50 hover:bg-surface-elevated"
-                      key={role}
-                    >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-secondary/15 text-accent-secondary font-mono text-xs">
-                        &gt;
-                      </span>
-                      <span>{role}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+            {/* Action Links */}
+            <div className="mt-8 pt-6 flex flex-wrap items-center gap-6">
+              <a
+                className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary border-b-2 border-primary pb-0.5 hover:text-accent hover:border-accent transition-colors"
+                download="Venkat_Satish_Resume.pdf"
+                href={personal.resume}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span>DOWNLOAD RESUME (PDF)</span>
+                <span className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
 
-            {/* Right: Education & Highlights Bento (5 Cols) */}
-            <motion.div
-              className="lg:col-span-5 space-y-6"
-              variants={itemVariants}
-            >
-              {/* Education Card */}
-              <div className="rounded-2xl border border-border bg-gradient-to-br from-surface to-surface-raised p-6 shadow-card">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-secondary">
-                    Education
-                  </span>
-                  <span className="rounded-full border border-technical/40 bg-technical/10 px-2.5 py-0.5 text-[11px] font-semibold text-technical">
-                    GPA {education.gpa}
-                  </span>
-                </div>
-
-                <h3 className="mt-4 text-xl font-bold tracking-tight text-primary">
-                  {education.university}
-                </h3>
-                <p className="mt-1 text-sm font-medium text-secondary">
-                  {education.degree}
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                  <span className="rounded-lg border border-border bg-surface px-3 py-1 text-accent-secondary font-medium">
-                    {education.specialization}
-                  </span>
-                  <span className="rounded-lg border border-border bg-surface px-3 py-1 text-muted">
-                    {education.duration}
-                  </span>
-                </div>
-              </div>
-
-              {/* Verified Profile Highlights */}
-              <div className="rounded-2xl border border-border bg-surface p-6 shadow-card">
-                <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted mb-4">
-                  {aboutSection.highlightsLabel}
-                </h3>
-
-                <ul className="space-y-3.5">
-                  {aboutSection.highlights.map((item) => (
-                    <li
-                      className="flex items-start gap-3.5 rounded-xl border border-border/50 bg-surface-raised/70 p-3 text-sm text-secondary transition-colors hover:border-accent-secondary/40 hover:text-primary"
-                      key={item.id}
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-surface shadow-soft">
-                        <HighlightIcon id={item.id} />
-                      </span>
-                      <span className="pt-1 text-xs sm:text-sm font-medium leading-relaxed">
-                        {item.text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+              <a
+                className="text-xs font-bold uppercase tracking-wider text-secondary hover:text-primary transition-colors flex items-center gap-1"
+                href="#experience"
+              >
+                <span>EXPLORE EXPERIENCE</span>
+                <span className="text-accent">↗</span>
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )

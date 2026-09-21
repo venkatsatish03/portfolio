@@ -14,10 +14,10 @@ function App() {
       <Navbar />
       <main id="main-content">
         <Hero />
-        <About />
-        <Experience />
         <Projects />
+        <About />
         <Skills />
+        <Experience />
         <Achievements />
         <Contact />
       </main>

@@ -30,10 +30,10 @@ const itemVariants: Variants = {
 export function Achievements() {
   return (
     <section
-      className="relative border-t border-border/70 bg-background/50 px-4 py-24 sm:px-6 lg:px-8"
+      className="py-24 sm:py-32 border-t border-border/70"
       id="achievements"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           variants={containerVariants}
@@ -41,72 +41,54 @@ export function Achievements() {
           whileInView="visible"
         >
           {/* Header */}
-          <motion.div className="mb-14" variants={itemVariants}>
-            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent-secondary">
-              <span>05</span>
-              <span className="h-px w-6 bg-accent-secondary" />
-              <span>Milestones &amp; Credentials</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+            <div className="editorial-tag">
+              05 / RECOGNITION &amp; CODING TRACK RECORD
             </div>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
-              Achievements &amp; Certifications
+            <h2 className="editorial-title text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary text-left md:text-right">
+              Milestones &amp; impact.
             </h2>
-            <p className="mt-2 max-w-2xl text-base text-secondary">
-              Competitive programming performance, hackathon distinctions,
-              patented innovations, and industry certifications.
-            </p>
-          </motion.div>
+          </div>
 
           {/* 1. Competitive Programming Stats Ribbon */}
           <motion.div
             className="grid grid-cols-2 gap-4 lg:grid-cols-4 mb-12"
             variants={itemVariants}
           >
-            <div className="rounded-2xl border border-border bg-surface p-5 shadow-card text-center">
-              <div className="font-mono text-3xl sm:text-4xl font-black text-gradient-cyan">
+            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+              <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.totalProblems}
               </div>
-              <p className="mt-1 font-mono text-xs font-semibold text-secondary uppercase tracking-wider">
+              <p className="mt-1 font-mono text-xs font-semibold text-accent uppercase tracking-wider">
                 DSA Problems Solved
               </p>
-              <span className="mt-2 inline-block text-[11px] text-muted">
-                LeetCode · CodeChef · Codeforces
-              </span>
             </div>
 
-            <div className="rounded-2xl border border-border bg-surface p-5 shadow-card text-center">
-              <div className="font-mono text-3xl sm:text-4xl font-black text-gradient-emerald">
+            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+              <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.leetCodeRating}
               </div>
-              <p className="mt-1 font-mono text-xs font-semibold text-secondary uppercase tracking-wider">
+              <p className="mt-1 font-mono text-xs font-semibold text-muted uppercase tracking-wider">
                 LeetCode Rating
               </p>
-              <span className="mt-2 inline-block text-[11px] text-muted">
-                Top Percentile Contests
-              </span>
             </div>
 
-            <div className="rounded-2xl border border-border bg-surface p-5 shadow-card text-center">
-              <div className="font-mono text-3xl sm:text-4xl font-black text-amber-400">
+            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+              <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.codeChef}
               </div>
-              <p className="mt-1 font-mono text-xs font-semibold text-secondary uppercase tracking-wider">
+              <p className="mt-1 font-mono text-xs font-semibold text-muted uppercase tracking-wider">
                 CodeChef Rating
               </p>
-              <span className="mt-2 inline-block text-[11px] text-muted">
-                Division Competitions
-              </span>
             </div>
 
-            <div className="rounded-2xl border border-border bg-surface p-5 shadow-card text-center">
-              <div className="font-mono text-3xl sm:text-4xl font-black text-purple-400">
+            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+              <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.contests}
               </div>
-              <p className="mt-1 font-mono text-xs font-semibold text-secondary uppercase tracking-wider">
-                Contests Completed
+              <p className="mt-1 font-mono text-xs font-semibold text-muted uppercase tracking-wider">
+                Contests Attended
               </p>
-              <span className="mt-2 inline-block text-[11px] text-muted">
-                Codeforces &amp; National Rounds
-              </span>
             </div>
           </motion.div>
 

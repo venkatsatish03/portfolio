@@ -1,192 +1,250 @@
 import { useState } from 'react'
-import { motion, type Variants } from 'framer-motion'
-import { skills } from '@/data/portfolioData'
+import { motion, AnimatePresence } from 'framer-motion'
+import { skills, certifications } from '@/data/portfolioData'
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-}
-
-interface CategoryGroup {
+interface CapabilityRow {
   readonly id: string
+  readonly index: string
   readonly title: string
-  readonly iconName: string
-  readonly accentColor: string
-  readonly items: readonly string[]
+  readonly description: string
+  readonly techStack: readonly string[]
 }
 
-const categoryIcons: Record<string, string> = {
-  Languages: 'code',
-  Security: 'shield',
-  Blockchain: 'link',
-  Backend: 'server',
-  Cloud: 'cloud',
-  'ML & Data': 'cpu',
-  Frontend: 'layout',
-  Databases: 'database',
-  DevOps: 'terminal',
-}
+const capabilitiesData: readonly CapabilityRow[] = [
+  {
+    id: 'blockchain',
+    index: '01',
+    title: 'Blockchain & Decentralized Architecture',
+    description:
+      'Designing tamper-resistant distributed ledger applications, smart contract protocols, consensus integrity, and privacy-preserving off-chain encrypted medical/credential records.',
+    techStack: [
+      'Solidity',
+      'Algorand',
+      'Smart Contracts',
+      'Cryptography',
+      'SHA-256',
+    ],
+  },
+  {
+    id: 'fullstack',
+    index: '02',
+    title: 'Full-Stack Systems & API Engineering',
+    description:
+      'Building performant, component-driven web applications and resilient backend microservices with transactional database optimization, real-time telemetry, and secure auth flows.',
+    techStack: [
+      'React.js',
+      'TypeScript',
+      'Node.js',
+      'FastAPI',
+      'Spring Boot',
+      'PostgreSQL',
+    ],
+  },
+  {
+    id: 'ai-cv',
+    index: '03',
+    title: 'Applied AI & Computer Vision Pipelines',
+    description:
+      'Training and deploying custom computer vision detectors (YOLOv8), super-resolution enhancement (Real-ESRGAN), and predictive machine learning models with NLP sentiment analysis.',
+    techStack: [
+      'YOLOv8',
+      'EasyOCR',
+      'Real-ESRGAN',
+      'Scikit-learn',
+      'NLP',
+      'Python',
+    ],
+  },
+  {
+    id: 'security-cloud',
+    index: '04',
+    title: 'Cybersecurity & Cloud Infrastructure',
+    description:
+      'Applying defense-in-depth threat modeling, file integrity verification hooks, containerized microservice architectures, and automated CI/CD testing pipelines.',
+    techStack: ['Docker', 'AWS', 'Azure', 'GitHub Actions', 'OWASP', 'Linux'],
+  },
+]
 
 export function Skills() {
+  const [expandedRow, setExpandedRow] = useState<string | null>(null)
+  const [showFullMatrix, setShowFullMatrix] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
-  const allCategories: CategoryGroup[] = skills.map((cat) => ({
-    id: cat.category.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-    title: cat.category,
-    iconName: categoryIcons[cat.category] || 'code',
-    accentColor:
-      cat.category === 'Security' || cat.category === 'Blockchain'
-        ? 'text-cyan-400'
-        : cat.category === 'Languages'
-          ? 'text-purple-400'
-          : cat.category === 'Backend'
-            ? 'text-blue-400'
-            : 'text-emerald-400',
-    items: cat.items,
-  }))
+  const toggleRow = (id: string) => {
+    setExpandedRow((curr) => (curr === id ? null : id))
+  }
 
-  const filteredCategories = allCategories
-    .map((cat) => {
-      if (!searchQuery.trim()) return cat
-      const query = searchQuery.toLowerCase()
-      const matchingItems = cat.items.filter((item) =>
-        item.toLowerCase().includes(query),
-      )
-      if (matchingItems.length > 0 || cat.title.toLowerCase().includes(query)) {
-        return {
-          ...cat,
-          items: matchingItems.length > 0 ? matchingItems : cat.items,
-        }
-      }
-      return null
-    })
-    .filter((cat): cat is CategoryGroup => cat !== null)
+  const filteredCategories = skills.filter((cat) => {
+    if (!searchQuery.trim()) return true
+    const q = searchQuery.toLowerCase()
+    return (
+      cat.category.toLowerCase().includes(q) ||
+      cat.items.some((item) => item.toLowerCase().includes(q))
+    )
+  })
 
   return (
-    <section
-      className="relative border-t border-border/70 bg-background px-4 py-24 sm:px-6 lg:px-8"
-      id="skills"
-    >
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial="hidden"
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.1 }}
-          whileInView="visible"
-        >
-          {/* Header */}
-          <motion.div
-            className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
-            variants={itemVariants}
-          >
-            <div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent-secondary">
-                <span>04</span>
-                <span className="h-px w-6 bg-accent-secondary" />
-                <span>Technical Arsenal</span>
-              </div>
-              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
-                Skills &amp; Technologies
-              </h2>
-              <p className="mt-2 max-w-xl text-base text-secondary">
-                Comprehensive toolset spanning core systems, security auditing,
-                smart contracts, ML pipelines, and cloud APIs.
-              </p>
-            </div>
+    <section className="py-24 sm:py-32 border-t border-border/70" id="skills">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+        {/* Section Header matching image */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+          <div className="editorial-tag">03 / CAPABILITIES</div>
+          <h2 className="editorial-title text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary text-left md:text-right">
+            What I can help with.
+          </h2>
+        </div>
 
-            {/* Quick Filter Search */}
-            <div className="w-full md:w-72">
-              <div className="relative">
+        {/* Editorial Horizontal Rows matching reference image */}
+        <div className="divide-y divide-border/80 border-t border-b border-border/80">
+          {capabilitiesData.map((item) => {
+            const isExpanded = expandedRow === item.id
+
+            return (
+              <motion.div
+                className={`group cursor-pointer py-8 sm:py-10 transition-colors px-2 sm:px-4 ${
+                  isExpanded ? 'bg-surface/70' : 'hover:bg-surface/40'
+                }`}
+                initial={{ opacity: 0, y: 16 }}
+                key={item.id}
+                onClick={() => toggleRow(item.id)}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+              >
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-baseline">
+                  {/* Column 1: Index Number */}
+                  <div className="md:col-span-1 font-mono text-xs sm:text-sm font-semibold text-accent">
+                    {item.index}
+                  </div>
+
+                  {/* Column 2: Title */}
+                  <div className="md:col-span-4">
+                    <h3 className="text-xl sm:text-2xl font-bold text-primary tracking-tight group-hover:text-accent transition-colors">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Column 3: Description */}
+                  <div className="md:col-span-6">
+                    <p className="text-sm sm:text-base leading-relaxed text-secondary font-normal">
+                      {item.description}
+                    </p>
+
+                    {/* Tech stack chips */}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {item.techStack.map((tech) => (
+                        <span
+                          className="rounded-md bg-surface-raised px-2.5 py-1 font-mono text-[11px] text-secondary border border-border/60"
+                          key={tech}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Column 4: Animated Diagonal Arrow */}
+                  <div className="md:col-span-1 flex md:justify-end text-xl text-muted group-hover:text-accent transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1">
+                    ↗
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+
+        {/* Matrix Toggle Button */}
+        <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+          <button
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs font-bold uppercase tracking-wider text-primary hover:border-accent hover:text-accent transition-all duration-200"
+            onClick={() => setShowFullMatrix(!showFullMatrix)}
+            type="button"
+          >
+            <span>
+              {showFullMatrix
+                ? 'Hide Granular Skill Matrix'
+                : 'Browse Full Technical Skill Matrix & Certifications'}
+            </span>
+            <span>{showFullMatrix ? '↑' : '↓'}</span>
+          </button>
+
+          <span className="text-xs font-mono text-muted">
+            9 CATEGORIES · 5 INDUSTRY CERTIFICATIONS
+          </span>
+        </div>
+
+        {/* Comprehensive Technical Skills Drawer */}
+        <AnimatePresence>
+          {showFullMatrix && (
+            <motion.div
+              animate={{ opacity: 1, height: 'auto' }}
+              className="mt-10 overflow-hidden pt-6 border-t border-border/60"
+              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              {/* Search filter */}
+              <div className="mb-8 max-w-md">
                 <input
-                  aria-label="Filter skills"
-                  className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 pl-10 text-xs text-primary placeholder:text-muted focus:border-accent-secondary focus:outline-none"
+                  aria-label="Filter technical skills"
+                  className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-xs font-mono text-primary placeholder:text-muted focus:border-accent focus:outline-none"
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Filter (e.g. Python, Docker)..."
+                  placeholder="Filter skills (e.g., Python, Solidity, Docker)..."
                   type="text"
                   value={searchQuery}
                 />
-                <svg
-                  className="absolute left-3.5 top-3 h-4 w-4 text-muted"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                  />
-                </svg>
-                {searchQuery && (
-                  <button
-                    aria-label="Clear filter"
-                    className="absolute right-3 top-2.5 text-xs text-muted hover:text-primary"
-                    onClick={() => setSearchQuery('')}
-                    type="button"
-                  >
-                    ×
-                  </button>
-                )}
               </div>
-            </div>
-          </motion.div>
 
-          {/* Categories Grid */}
-          <motion.div
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            variants={containerVariants}
-          >
-            {filteredCategories.map((group) => (
-              <motion.div
-                animate="visible"
-                className="rounded-2xl border border-border bg-surface p-6 shadow-card transition-all duration-300 hover:border-accent-secondary/50 hover:shadow-soft"
-                key={group.id}
-                variants={itemVariants}
-              >
-                <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-4">
-                  <h3 className="font-mono text-sm font-bold tracking-tight text-primary flex items-center gap-2">
-                    <span
-                      className={`h-2 w-2 rounded-full ${group.accentColor} bg-current`}
-                    />
-                    {group.title}
-                  </h3>
-                  <span className="font-mono text-xs text-muted">
-                    {group.items.length} items
-                  </span>
-                </div>
+              {/* Categorized Skills Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredCategories.map((cat) => (
+                  <div
+                    className="rounded-2xl border border-border/70 bg-surface p-5"
+                    key={cat.category}
+                  >
+                    <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-accent mb-3">
+                      {cat.category}
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cat.items.map((item) => (
+                        <span
+                          className="rounded-lg bg-surface-raised px-2.5 py-1 text-xs text-secondary border border-border/50"
+                          key={item}
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {group.items.map((skill) => (
-                    <span
-                      className="rounded-lg border border-border bg-surface-raised px-3 py-1.5 text-xs font-medium text-secondary transition-all hover:border-accent-secondary/50 hover:text-primary hover:bg-surface-elevated"
-                      key={skill}
+              {/* Certifications Row */}
+              <div className="mt-8 rounded-2xl border border-border/70 bg-surface p-6">
+                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-accent mb-4">
+                  Verified Certifications
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {certifications.map((cert) => (
+                    <div
+                      className="flex items-center gap-2.5 rounded-xl border border-border/60 bg-surface-raised/70 p-3 text-xs text-secondary"
+                      key={cert.id}
                     >
-                      {skill}
-                    </span>
+                      <span className="h-2 w-2 rounded-full bg-accent shrink-0" />
+                      <div>
+                        <p className="font-semibold text-primary">
+                          {cert.name}
+                        </p>
+                        <p className="text-[11px] font-mono text-muted">
+                          {cert.date}
+                        </p>
+                      </div>
+                    </div>
                   ))}
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )
