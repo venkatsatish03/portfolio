@@ -133,16 +133,15 @@ export function Hero() {
                 type="button"
               >
                 <span className="text-emerald-500 font-bold">&gt;_</span>
-                <span>{showDossier ? 'Hide Code Dossier' : 'View Code Dossier'}</span>
+                <span>
+                  {showDossier ? 'Hide Code Dossier' : 'View Code Dossier'}
+                </span>
               </button>
             </motion.div>
 
             {/* Expandable Hacker Dossier Terminal */}
             {showDossier && (
-              <HackerDossier
-                code={dossierCode}
-                fileName="satish_dossier.ts"
-              />
+              <HackerDossier code={dossierCode} fileName="satish_dossier.ts" />
             )}
           </div>
 

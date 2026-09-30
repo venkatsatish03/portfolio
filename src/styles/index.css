@@ -272,7 +272,9 @@ html.theme-transition *::after {
 }
 
 .hacker-text-glow {
-  text-shadow: 0 0 6px rgba(52, 211, 153, 0.55), 0 0 12px rgba(16, 185, 129, 0.25);
+  text-shadow:
+    0 0 6px rgba(52, 211, 153, 0.55),
+    0 0 12px rgba(16, 185, 129, 0.25);
 }
 
 @keyframes terminalCursorBlink {
@@ -289,4 +291,3 @@ html.theme-transition *::after {
 .animate-terminal-cursor {
   animation: terminalCursorBlink 0.85s infinite;
 }
-

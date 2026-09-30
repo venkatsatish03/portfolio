@@ -19,7 +19,7 @@ export function HackerDossier({
 }: HackerDossierProps) {
   const [typedLength, setTypedLength] = useState(0)
   const [copied, setCopied] = useState(false)
-  const [isTyping, setIsTyping] = useState(true)
+  const isTyping = typedLength < code.length
   const [isPaused, setIsPaused] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -69,7 +69,6 @@ export function HackerDossier({
     if (isPaused) return
 
     if (typedLength < code.length) {
-      setIsTyping(true)
       const nextChar = code[typedLength]
 
       // Organic typing delays: pause longer at newlines and punctuation
@@ -85,10 +84,8 @@ export function HackerDossier({
       }, delay)
     } else {
       // Completed typing! Hold for 4.5 seconds, then continuously restart
-      setIsTyping(false)
       timerRef.current = setTimeout(() => {
         setTypedLength(0)
-        setIsTyping(true)
       }, 4500)
     }
 
@@ -120,14 +117,12 @@ export function HackerDossier({
   const handleRestart = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
     setTypedLength(0)
-    setIsTyping(true)
     setIsPaused(false)
   }
 
   const handleSkip = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
     setTypedLength(code.length)
-    setIsTyping(false)
   }
 
   return (
@@ -282,9 +277,7 @@ export function HackerDossier({
         <div className="flex items-center gap-3">
           <span>UTF-8</span>
           <span>TypeScript</span>
-          <span className="hidden sm:inline">
-            SEC_LEVEL: 0xDEADBEEF
-          </span>
+          <span className="hidden sm:inline">SEC_LEVEL: 0xDEADBEEF</span>
         </div>
         <div className="flex items-center gap-2 text-emerald-500/80">
           <span>

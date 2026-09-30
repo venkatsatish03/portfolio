@@ -137,7 +137,7 @@ export const experiences: readonly ExperienceItem[] = [
   },
   {
     organization: 'Algorand Blockchain Club',
-    role: 'Chair',
+    role: 'Lead',
     duration: 'Feb 2025 – Present',
     type: 'Student Leadership, KL University',
     points: [
@@ -395,7 +395,7 @@ export const aboutSection: AboutSectionContent = {
     {
       id: 'leadership',
       icon: '👥',
-      text: 'Chair — Algorand Blockchain Club (70 members)',
+      text: 'Lead — Algorand Blockchain Club (70 members)',
     },
     {
       id: 'dsa',
