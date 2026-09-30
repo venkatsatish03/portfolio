@@ -232,9 +232,3 @@ Run `npm run build` and publish the generated `dist/` folder via GitHub Actions 
 - **LinkedIn**: [linkedin.com/in/medarametla-venkat-satish-005993314](https://www.linkedin.com/in/medarametla-venkat-satish-005993314/)
 - **GitHub**: [@venkatsatish03](https://github.com/venkatsatish03)
 - **Location**: Hyderabad, India
-
----
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
