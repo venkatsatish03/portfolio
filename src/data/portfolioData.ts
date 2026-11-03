@@ -188,7 +188,7 @@ export const projects: readonly ProjectItem[] = [
       },
       {
         label: 'GitHub Repository',
-        url: 'https://github.com/blockedge-tech/collabchain',
+        url: 'https://github.com/venkatsatish03/collabchain.git',
         type: 'github',
       },
     ],
