@@ -2,6 +2,8 @@
 @import '@fontsource-variable/jetbrains-mono';
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
   --font-sans:
     'Plus Jakarta Sans', 'Inter Variable', Inter, ui-sans-serif, system-ui,
@@ -52,6 +54,13 @@
   --portfolio-shadow-card: 0 18px 40px -12px rgba(18, 18, 18, 0.08);
   --portfolio-shadow-glow: 0 0 25px -4px rgba(255, 73, 37, 0.2);
 
+  --patent-banner-bg: rgba(180, 83, 9, 0.09);
+  --patent-banner-border: rgba(180, 83, 9, 0.28);
+  --patent-banner-text: #78350f;
+  --patent-banner-strong: #451a03;
+  --patent-banner-star-bg: rgba(180, 83, 9, 0.18);
+  --patent-banner-star-text: #92400e;
+
   color-scheme: light;
   font-family: var(--font-sans);
   font-synthesis: none;
@@ -79,6 +88,13 @@ html[data-theme='dark'] {
   --portfolio-shadow-soft: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
   --portfolio-shadow-card: 0 24px 48px -12px rgba(0, 0, 0, 0.6);
   --portfolio-shadow-glow: 0 0 30px -5px rgba(255, 90, 54, 0.25);
+
+  --patent-banner-bg: rgba(245, 158, 11, 0.1);
+  --patent-banner-border: rgba(245, 158, 11, 0.28);
+  --patent-banner-text: #fde68a;
+  --patent-banner-strong: #fef3c7;
+  --patent-banner-star-bg: rgba(245, 158, 11, 0.2);
+  --patent-banner-star-text: #fcd34d;
 
   color-scheme: dark;
 }
@@ -180,6 +196,131 @@ html.theme-transition *::after {
   box-shadow: 0 16px 36px -12px rgba(18, 18, 18, 0.12);
 }
 
+/* ==========================================================================
+   Glassmorphism Design System
+   ========================================================================== */
+
+/* Glass Panels & Modals */
+.glass-panel {
+  background: color-mix(
+    in srgb,
+    var(--portfolio-color-surface) 75%,
+    transparent
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--portfolio-color-border);
+  box-shadow: 0 12px 36px -10px rgba(18, 18, 18, 0.08);
+}
+
+html[data-theme='dark'] .glass-panel {
+  background: rgba(18, 18, 22, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 20px 48px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Glass Interactive Cards */
+.glass-card {
+  background: color-mix(
+    in srgb,
+    var(--portfolio-color-surface) 65%,
+    transparent
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--portfolio-color-border);
+  box-shadow: 0 8px 24px -8px rgba(18, 18, 18, 0.06);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html[data-theme='dark'] .glass-card {
+  background: rgba(22, 22, 28, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 12px 32px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--portfolio-color-border-glow);
+  box-shadow:
+    0 18px 40px -10px rgba(255, 73, 37, 0.16),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Floating Glass Navbar */
+.glass-nav {
+  background: color-mix(
+    in srgb,
+    var(--portfolio-color-surface) 80%,
+    transparent
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--portfolio-color-border);
+  box-shadow: 0 12px 32px -10px rgba(18, 18, 18, 0.08);
+}
+
+html[data-theme='dark'] .glass-nav {
+  background: rgba(13, 13, 16, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 16px 36px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Glass Badges & Chips */
+.glass-badge {
+  background: color-mix(
+    in srgb,
+    var(--portfolio-color-surface-raised) 70%,
+    transparent
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--portfolio-color-border);
+}
+
+html[data-theme='dark'] .glass-badge {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Patent Interlock Callout */
+.patent-banner {
+  background-color: var(--patent-banner-bg);
+  border: 1px solid var(--patent-banner-border);
+  color: var(--patent-banner-text);
+}
+
+.patent-banner strong {
+  color: var(--patent-banner-strong);
+}
+
+.patent-banner-star {
+  background-color: var(--patent-banner-star-bg);
+  color: var(--patent-banner-star-text);
+}
+
+/* Ambient Glow Orbs for Glass Refraction */
+.ambient-glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(120px);
+  pointer-events: none;
+  opacity: 0.35;
+  will-change: transform;
+}
+
+html[data-theme='dark'] .ambient-glow-orb {
+  opacity: 0.45;
+}
+
 /* Dark Section Style */
 .dark-section {
   background-color: #0e0e0e;
@@ -191,6 +332,7 @@ html.theme-transition *::after {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -200,6 +342,7 @@ html.theme-transition *::after {
   from {
     transform: rotate(60deg);
   }
+
   to {
     transform: rotate(420deg);
   }
@@ -209,6 +352,7 @@ html.theme-transition *::after {
   from {
     transform: rotate(120deg);
   }
+
   to {
     transform: rotate(480deg);
   }
@@ -219,6 +363,7 @@ html.theme-transition *::after {
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-6px);
   }
@@ -282,6 +427,7 @@ html.theme-transition *::after {
   49% {
     opacity: 1;
   }
+
   50%,
   100% {
     opacity: 0;
@@ -290,4 +436,73 @@ html.theme-transition *::after {
 
 .animate-terminal-cursor {
   animation: terminalCursorBlink 0.85s infinite;
+}
+
+/* ==========================================================================
+   GitHub Heatmap System
+   ========================================================================== */
+
+:root {
+  --heatmap-empty: rgba(18, 18, 18, 0.06);
+  --heatmap-l1: rgba(255, 73, 37, 0.18);
+  --heatmap-l2: rgba(255, 73, 37, 0.38);
+  --heatmap-l3: rgba(255, 73, 37, 0.62);
+  --heatmap-l4: rgba(255, 73, 37, 1);
+  --heatmap-l4-glow: rgba(255, 73, 37, 0.45);
+}
+
+html[data-theme='dark'] {
+  --heatmap-empty: rgba(255, 255, 255, 0.06);
+  --heatmap-l1: rgba(255, 90, 54, 0.2);
+  --heatmap-l2: rgba(255, 90, 54, 0.4);
+  --heatmap-l3: rgba(255, 90, 54, 0.65);
+  --heatmap-l4: rgba(255, 90, 54, 1);
+  --heatmap-l4-glow: rgba(255, 90, 54, 0.5);
+}
+
+.heatmap-cell {
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.6);
+  z-index: 10;
+}
+
+.heatmap-0 {
+  background-color: var(--heatmap-empty);
+}
+
+.heatmap-1 {
+  background-color: var(--heatmap-l1);
+}
+
+.heatmap-2 {
+  background-color: var(--heatmap-l2);
+}
+
+.heatmap-3 {
+  background-color: var(--heatmap-l3);
+}
+
+.heatmap-4 {
+  background-color: var(--heatmap-l4);
+  box-shadow: 0 0 8px var(--heatmap-l4-glow);
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-count-up {
+  animation: countUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }

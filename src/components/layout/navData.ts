@@ -3,6 +3,7 @@ export const navLinks = [
   { label: 'About', id: 'about' },
   { label: 'Capabilities', id: 'skills' },
   { label: 'Experience', id: 'experience' },
+  { label: 'Research', id: 'research' },
   { label: 'Contact', id: 'contact' },
 ] as const
 

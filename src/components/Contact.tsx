@@ -74,7 +74,7 @@ export function Contact() {
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         {/* Top Kicker matching image */}
         <div className="editorial-tag text-accent font-mono text-xs uppercase tracking-widest mb-10">
-          06 / CONTACT
+          08 / CONTACT
         </div>
 
         {/* Giant Editorial Headline */}
@@ -143,7 +143,7 @@ export function Contact() {
           {showDirectForm && (
             <motion.div
               animate={{ opacity: 1, height: 'auto' }}
-              className="mt-12 max-w-2xl rounded-2xl border border-white/15 bg-[#171719] p-6 sm:p-8 overflow-hidden"
+              className="mt-12 max-w-2xl rounded-2xl border border-white/15 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 overflow-hidden shadow-2xl"
               exit={{ opacity: 0, height: 0 }}
               initial={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
@@ -161,7 +161,7 @@ export function Contact() {
                     Your Name *
                   </label>
                   <input
-                    className="w-full rounded-xl border border-white/15 bg-[#101012] px-4 py-2.5 text-sm text-white placeholder-[#606066] focus:border-accent focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-md px-4 py-2.5 text-sm text-white placeholder-[#606066] focus:border-accent focus:outline-none"
                     id="contact-name"
                     onChange={(e) =>
                       setFormValues({ ...formValues, name: e.target.value })
@@ -181,7 +181,7 @@ export function Contact() {
                     Your Email *
                   </label>
                   <input
-                    className="w-full rounded-xl border border-white/15 bg-[#101012] px-4 py-2.5 text-sm text-white placeholder-[#606066] focus:border-accent focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-md px-4 py-2.5 text-sm text-white placeholder-[#606066] focus:border-accent focus:outline-none"
                     id="contact-email"
                     onChange={(e) =>
                       setFormValues({ ...formValues, email: e.target.value })
@@ -201,7 +201,7 @@ export function Contact() {
                     Message *
                   </label>
                   <textarea
-                    className="w-full rounded-xl border border-white/15 bg-[#101012] px-4 py-2.5 text-sm text-white placeholder-[#606066] focus:border-accent focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-md px-4 py-2.5 text-sm text-white placeholder-[#606066] focus:border-accent focus:outline-none"
                     id="contact-message"
                     onChange={(e) =>
                       setFormValues({ ...formValues, message: e.target.value })

@@ -139,7 +139,7 @@ export function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
             >
               {/* Card Image / Preview Frame */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-surface border border-border/70 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl glass-card p-6 sm:p-8 flex flex-col justify-between">
                 {/* Top Corner Meta */}
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
@@ -224,7 +224,7 @@ export function Projects() {
                 viewport={{ once: true }}
                 whileInView={{ opacity: 1, y: 0 }}
               >
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-surface border border-border/70 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl glass-card p-5 sm:p-6 flex flex-col justify-between">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
                       {featuredProjects[1].badge || 'Algorand Hackathon'}
@@ -294,7 +294,7 @@ export function Projects() {
                 viewport={{ once: true }}
                 whileInView={{ opacity: 1, y: 0 }}
               >
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-surface border border-border/70 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl glass-card p-5 sm:p-6 flex flex-col justify-between">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
                       {featuredProjects[2].badge || 'TSAROLABS'}
@@ -360,7 +360,7 @@ export function Projects() {
         {/* Expandable Section for Remaining Projects */}
         <div className="mt-16 text-center">
           <button
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs font-bold uppercase tracking-wider text-primary hover:border-accent hover:text-accent transition-all duration-200"
+            className="inline-flex items-center gap-2 rounded-full glass-card px-6 py-3 text-xs font-bold uppercase tracking-wider text-primary hover:text-accent"
             onClick={() => setShowAll(!showAll)}
             type="button"
           >
@@ -385,7 +385,7 @@ export function Projects() {
                 const meta = projectMetadataMap[project.title]
                 return (
                   <div
-                    className="group cursor-pointer rounded-2xl border border-border/70 bg-surface p-6 flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition-all"
+                    className="group cursor-pointer rounded-2xl glass-card p-6 flex flex-col justify-between"
                     key={project.title}
                     onClick={() => setSelectedProject(project)}
                   >
@@ -427,10 +427,10 @@ export function Projects() {
         {/* Project Detail Modal */}
         <AnimatePresence>
           {selectedProject && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
               <motion.div
                 animate={{ opacity: 1, scale: 1 }}
-                className="relative max-w-2xl w-full rounded-2xl bg-surface border border-border p-6 sm:p-8 shadow-2xl text-primary max-h-[85vh] overflow-y-auto"
+                className="relative max-w-2xl w-full rounded-3xl glass-panel p-6 sm:p-8 shadow-2xl text-primary max-h-[85vh] overflow-y-auto"
                 exit={{ opacity: 0, scale: 0.95 }}
                 initial={{ opacity: 0, scale: 0.95 }}
               >

@@ -55,7 +55,7 @@ export function Achievements() {
             className="grid grid-cols-2 gap-4 lg:grid-cols-4 mb-12"
             variants={itemVariants}
           >
-            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+            <div className="rounded-2xl glass-card p-6 text-center">
               <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.totalProblems}
               </div>
@@ -64,7 +64,7 @@ export function Achievements() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+            <div className="rounded-2xl glass-card p-6 text-center">
               <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.leetCodeRating}
               </div>
@@ -73,7 +73,7 @@ export function Achievements() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+            <div className="rounded-2xl glass-card p-6 text-center">
               <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.codeChef}
               </div>
@@ -82,7 +82,7 @@ export function Achievements() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border/70 bg-surface p-6 shadow-sm text-center">
+            <div className="rounded-2xl glass-card p-6 text-center">
               <div className="font-mono text-3xl sm:text-4xl font-extrabold text-primary">
                 {competitiveProgramming.contests}
               </div>
@@ -96,7 +96,7 @@ export function Achievements() {
           <div className="grid gap-6 lg:grid-cols-12 mb-12">
             {/* Honors Card (7 Cols) */}
             <motion.div
-              className="lg:col-span-7 rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-card"
+              className="lg:col-span-7 rounded-2xl glass-panel p-6 sm:p-8"
               variants={itemVariants}
             >
               <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-6">
@@ -124,7 +124,7 @@ export function Achievements() {
               <div className="space-y-4">
                 {achievements.map((item) => (
                   <div
-                    className="flex items-start gap-3.5 rounded-xl border border-border/70 bg-surface-raised p-4 transition-all hover:border-accent-secondary/50 hover:bg-surface-elevated"
+                    className="flex items-start gap-3.5 rounded-xl border border-border/70 bg-surface/40 backdrop-blur-sm p-4 transition-all hover:border-accent-secondary/50 hover:bg-surface/60"
                     key={item.id}
                   >
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-amber-400/15 text-amber-400 font-bold text-xs">
@@ -140,7 +140,7 @@ export function Achievements() {
 
             {/* Industry Certifications (5 Cols) */}
             <motion.div
-              className="lg:col-span-5 rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-card"
+              className="lg:col-span-5 rounded-2xl glass-panel p-6 sm:p-8"
               variants={itemVariants}
             >
               <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-6">
@@ -166,7 +166,7 @@ export function Achievements() {
               <div className="space-y-3.5">
                 {certifications.map((cert) => (
                   <div
-                    className="flex items-center justify-between gap-3 rounded-xl border border-border/70 bg-surface-raised p-3.5 transition-all hover:border-accent-secondary/50"
+                    className="flex items-center justify-between gap-3 rounded-xl border border-border/70 bg-surface/40 backdrop-blur-sm p-3.5 transition-all hover:border-accent-secondary/50"
                     key={cert.id}
                   >
                     <div>

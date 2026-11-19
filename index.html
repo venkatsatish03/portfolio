@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <script>
@@ -10,11 +10,11 @@
           const theme =
             storedTheme === 'light' || storedTheme === 'dark'
               ? storedTheme
-              : 'light'
+              : 'dark'
 
           document.documentElement.setAttribute('data-theme', theme)
         } catch {
-          document.documentElement.setAttribute('data-theme', 'light')
+          document.documentElement.setAttribute('data-theme', 'dark')
         }
       })()
     </script>

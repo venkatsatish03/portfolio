@@ -58,6 +58,29 @@ export interface AchievementItem {
   readonly text: string
 }
 
+export interface PublicationAuthor {
+  readonly name: string
+  readonly email?: string
+  readonly isSelf?: boolean
+}
+
+export interface PublicationItem {
+  readonly id: string
+  readonly title: string
+  readonly conference: string
+  readonly conferenceShort: string
+  readonly location: string
+  readonly dates: string
+  readonly year: string
+  readonly status: 'In Production' | 'Accepted' | 'Published' | 'Under Review'
+  readonly authors: readonly PublicationAuthor[]
+  readonly abstract: string
+  readonly tags: readonly string[]
+  readonly patentFiling?: string
+  readonly link?: string
+  readonly bibtex: string
+}
+
 export interface CompetitiveProgrammingInfo {
   readonly totalProblems: string
   readonly leetCodeRating: string
@@ -88,6 +111,7 @@ export interface PortfolioData {
   readonly skills: readonly SkillCategory[]
   readonly certifications: readonly CertificationItem[]
   readonly achievements: readonly AchievementItem[]
+  readonly publications: readonly PublicationItem[]
   readonly competitiveProgramming: CompetitiveProgrammingInfo
   readonly targetRoles: readonly string[]
   readonly aboutSection: AboutSectionContent
@@ -351,6 +375,48 @@ export const achievements: readonly AchievementItem[] = [
   },
 ]
 
+export const publications: readonly PublicationItem[] = [
+  {
+    id: 'ojasraksha-sqits-2026',
+    title:
+      'OjasRaksha: A DPDP-Aligned Decentralized Healthcare Data Governance Framework Using Hedera, Smart Contracts, and Encrypted IPFS',
+    conference:
+      'Secure Quantum Intelligence and Trusted Systems: First International Conference, IC-SQITS 2026',
+    conferenceShort: 'IC-SQITS 2026',
+    location: 'San Antonio, Texas, USA',
+    dates: 'December 10–11, 2026',
+    year: '2026',
+    status: 'In Production',
+    authors: [
+      { name: 'Dr. Jagan Mohan Reddy Danda' },
+      { name: 'Mr. Medarametla Venkat Satish', isSelf: true },
+      { name: 'Mr. Karthikeya Sukka' },
+      { name: 'Mr. Yashwanth Puligilla' },
+      { name: 'Mr. Puneeth Manoj Sai Pasumarthi' },
+      { name: 'Manjunath Mitikiri' },
+    ],
+    abstract:
+      "A decentralized healthcare data governance architecture aligned with India's Digital Personal Data Protection (DPDP) Act. Combines Hedera Hashgraph consensus, role-based smart contracts, and decentralized encrypted IPFS to enforce patient consent management, zero-trust cryptographic access, and immutable audit logs for medical record transfers.",
+    tags: [
+      'Hedera Hashgraph',
+      'Smart Contracts',
+      'Encrypted IPFS',
+      'DPDP Compliance',
+      'Healthcare Data Governance',
+      'Zero-Trust Security',
+    ],
+    patentFiling: 'Provisional Patent Co-Inventor — OjasRaksha',
+    bibtex: `@inproceedings{ojasraksha2026sqits,
+  title={OjasRaksha: A DPDP-Aligned Decentralized Healthcare Data Governance Framework Using Hedera, Smart Contracts, and Encrypted IPFS},
+  author={Danda, Jagan Mohan Reddy and Satish, Medarametla Venkat and Sukka, Karthikeya and Puligilla, Yashwanth and Pasumarthi, Puneeth Manoj Sai and Mitikiri, Manjunath},
+  booktitle={Secure Quantum Intelligence and Trusted Systems: First International Conference, IC-SQITS 2026, Proceedings},
+  year={2026},
+  month={December},
+  address={San Antonio, Texas, USA}
+}`,
+  },
+]
+
 export const competitiveProgramming: CompetitiveProgrammingInfo = {
   totalProblems: '500+',
   leetCodeRating: '1414',
@@ -418,6 +484,7 @@ export const portfolioData: PortfolioData = {
   skills,
   certifications,
   achievements,
+  publications,
   competitiveProgramming,
   targetRoles,
   aboutSection,

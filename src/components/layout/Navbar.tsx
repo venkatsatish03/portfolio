@@ -84,11 +84,10 @@ export function Navbar() {
 
     return (
       <a
-        className={`relative px-4 py-1.5 text-xs font-semibold tracking-wider uppercase transition-colors duration-200 ${
-          isActive
-            ? 'text-primary font-bold'
-            : 'text-secondary hover:text-primary'
-        }`}
+        className={`relative px-4 py-1.5 text-xs font-semibold tracking-wider uppercase transition-colors duration-200 ${isActive
+          ? 'text-primary font-bold'
+          : 'text-secondary hover:text-primary'
+          }`}
         href={`#${id}`}
         onClick={(event) => handleNavClick(id, event)}
       >
@@ -106,15 +105,13 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'py-3.5 backdrop-blur-md bg-background/90 border-b border-border shadow-sm'
-          : 'py-6 bg-transparent border-b border-transparent'
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'py-3' : 'py-6 bg-transparent'
+        }`}
     >
       <nav
         aria-label="Primary navigation"
-        className="mx-auto flex max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12"
+        className={`mx-auto flex max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12 transition-all duration-300 ${isScrolled ? 'glass-nav rounded-2xl py-3 shadow-lg' : ''
+          }`}
       >
         {/* Brand / Logo */}
         <a
@@ -169,7 +166,7 @@ export function Navbar() {
           <button
             aria-expanded={isMobileMenuOpen}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface/80 text-secondary shadow-soft backdrop-blur-md hover:border-accent-secondary hover:text-accent-secondary focus-visible:ring-2 focus-visible:ring-accent-secondary"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl glass-badge text-secondary shadow-soft hover:border-accent-secondary hover:text-accent-secondary focus-visible:ring-2 focus-visible:ring-accent-secondary"
             onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
             type="button"
           >
@@ -182,21 +179,20 @@ export function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, y: 0, height: 'auto' }}
             aria-label="Mobile navigation drawer"
-            className="overflow-hidden border-b border-border bg-surface-raised/95 px-6 py-6 shadow-card backdrop-blur-2xl md:hidden"
-            exit={{ opacity: 0, height: 0 }}
-            initial={{ opacity: 0, height: 0 }}
+            className="overflow-hidden mx-4 mt-2 rounded-2xl glass-panel px-6 py-6 shadow-2xl md:hidden"
+            exit={{ opacity: 0, y: -10, height: 0 }}
+            initial={{ opacity: 0, y: -10, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
           >
             <div className="flex flex-col gap-2">
               {navLinks.map(({ id, label }) => (
                 <a
-                  className={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                    activeLink === id
-                      ? 'bg-accent-secondary/15 text-accent-secondary font-semibold'
-                      : 'text-secondary hover:bg-surface hover:text-primary'
-                  }`}
+                  className={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${activeLink === id
+                    ? 'bg-accent-secondary/15 text-accent-secondary font-semibold'
+                    : 'text-secondary hover:bg-surface hover:text-primary'
+                    }`}
                   href={`#${id}`}
                   key={id}
                   onClick={(event) => handleNavClick(id, event)}

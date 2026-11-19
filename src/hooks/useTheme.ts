@@ -19,12 +19,6 @@ function readStoredTheme(): Theme | null {
   }
 }
 
-function getSystemTheme(): Theme {
-  return window.matchMedia('(prefers-color-scheme: light)').matches
-    ? 'light'
-    : 'dark'
-}
-
 function getCurrentTheme(): Theme {
   if (typeof window === 'undefined') {
     return 'dark'
@@ -36,7 +30,7 @@ function getCurrentTheme(): Theme {
     return documentTheme
   }
 
-  return readStoredTheme() ?? getSystemTheme()
+  return readStoredTheme() ?? 'dark'
 }
 
 function prefersReducedMotion(): boolean {
@@ -96,8 +90,9 @@ export function useTheme() {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: light)')
 
     const handleSystemThemeChange = () => {
-      if (readStoredTheme() === null) {
-        applyTheme(getSystemTheme(), { transition: true })
+      const stored = readStoredTheme()
+      if (stored !== null) {
+        applyTheme(stored, { transition: true })
       }
     }
 

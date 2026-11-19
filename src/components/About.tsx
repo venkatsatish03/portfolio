@@ -96,7 +96,7 @@ export function About() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {aboutSection.highlights.slice(0, 6).map((item) => (
                   <div
-                    className="flex items-start gap-2.5 rounded-xl border border-border/60 bg-surface/60 p-3 text-xs text-secondary hover:border-accent/30 transition-colors"
+                    className="flex items-start gap-2.5 rounded-xl glass-card p-3 text-xs text-secondary hover:border-accent/40"
                     key={item.id}
                   >
                     <span className="text-base leading-none">{item.icon}</span>
@@ -107,16 +107,16 @@ export function About() {
             </div>
 
             {/* Action Links */}
-            <div className="mt-8 pt-6 flex flex-wrap items-center gap-6">
+            <div className="mt-8 pt-6 flex flex-wrap items-center gap-4 sm:gap-6">
               <a
-                className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary border-b-2 border-primary pb-0.5 hover:text-accent hover:border-accent transition-colors"
+                className="group inline-flex items-center gap-2 rounded-xl px-5 py-3 text-xs font-bold uppercase tracking-wider text-primary glass-card hover:text-accent hover:border-accent/60 shadow-sm"
                 download="Venkat_Satish_Resume.pdf"
                 href={personal.resume}
                 rel="noreferrer"
                 target="_blank"
               >
                 <span>DOWNLOAD RESUME (PDF)</span>
-                <span className="transition-transform group-hover:translate-x-1">
+                <span className="transition-transform group-hover:translate-x-1 text-accent">
                   →
                 </span>
               </a>

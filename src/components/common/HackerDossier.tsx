@@ -128,7 +128,7 @@ export function HackerDossier({
   return (
     <motion.div
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      className="relative mt-6 overflow-hidden rounded-xl border border-emerald-500/40 bg-[#050806] shadow-[0_0_35px_rgba(16,185,129,0.18),_inset_0_1px_0_rgba(52,211,153,0.15)] font-mono text-xs selection:bg-emerald-500 selection:text-black"
+      className="relative mt-6 overflow-hidden rounded-xl border border-emerald-500/40 bg-[#050806]/90 backdrop-blur-xl shadow-[0_0_35px_rgba(16,185,129,0.18),_inset_0_1px_0_rgba(52,211,153,0.15)] font-mono text-xs selection:bg-emerald-500 selection:text-black"
       exit={{ opacity: 0, y: -8, scale: 0.98 }}
       initial={{ opacity: 0, y: 12, scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}

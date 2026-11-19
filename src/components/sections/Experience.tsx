@@ -93,7 +93,7 @@ export function Experience() {
                   />
 
                   {/* Card Content */}
-                  <div className="rounded-2xl border border-border/70 bg-surface p-6 sm:p-8 shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-md">
+                  <div className="rounded-2xl glass-card p-6 sm:p-8">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/60 pb-5">
                       <div>
                         <span className="font-mono text-xs font-semibold uppercase tracking-wider text-accent">

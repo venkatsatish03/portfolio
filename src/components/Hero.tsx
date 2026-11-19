@@ -73,10 +73,10 @@ export function Hero() {
           <div className="lg:col-span-7">
             {/* Kicker tag */}
             <motion.div
-              className="editorial-tag text-xs tracking-widest text-accent font-mono mb-4 flex items-center gap-2"
+              className="editorial-tag text-xs tracking-widest text-accent font-mono mb-4 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 glass-badge"
               variants={itemVariants}
             >
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               <span>INDEPENDENT ENGINEER &amp; RESEARCHER</span>
             </motion.div>
 
@@ -212,24 +212,27 @@ export function Hero() {
                 />
               </svg>
 
-              {/* Floating Orange Initials Badge matching 'YN' in reference */}
-              <motion.div
-                animate={{
-                  y: [-4, 4, -4],
-                  transition: {
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  },
-                }}
-                className="absolute right-8 sm:right-12 top-1/2 -translate-y-1/2 flex items-center justify-center"
-              >
-                <div className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-accent shadow-lg shadow-accent/30 text-white font-display text-xl sm:text-2xl font-extrabold tracking-tight">
-                  <span>VS</span>
-                  {/* Subtle pulsing outer ring */}
-                  <span className="absolute inset-0 rounded-full border border-white/40 animate-ping opacity-25" />
-                </div>
-              </motion.div>
+              {/* Center Orbital Nucleus: Glowing Orange Initials Badge */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                <motion.div
+                  animate={{
+                    y: [-4, 4, -4],
+                    scale: [1, 1.03, 1],
+                    transition: {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    },
+                  }}
+                  className="flex items-center justify-center"
+                >
+                  <div className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-accent/95 backdrop-blur-md border border-white/30 shadow-[0_0_40px_rgba(255,73,37,0.45)] text-white font-display text-xl sm:text-2xl font-extrabold tracking-tight">
+                    <span>VS</span>
+                    {/* Subtle pulsing outer ring */}
+                    <span className="absolute inset-0 rounded-full border border-white/50 animate-ping opacity-30" />
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         </motion.div>

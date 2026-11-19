@@ -101,9 +101,8 @@ export function Skills() {
 
             return (
               <motion.div
-                className={`group cursor-pointer py-8 sm:py-10 transition-colors px-2 sm:px-4 ${
-                  isExpanded ? 'bg-surface/70' : 'hover:bg-surface/40'
-                }`}
+                className={`group cursor-pointer py-8 sm:py-10 transition-colors px-2 sm:px-4 ${isExpanded ? 'bg-surface/70' : 'hover:bg-surface/40'
+                  }`}
                 initial={{ opacity: 0, y: 16 }}
                 key={item.id}
                 onClick={() => toggleRow(item.id)}
@@ -155,7 +154,7 @@ export function Skills() {
         {/* Matrix Toggle Button */}
         <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
           <button
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs font-bold uppercase tracking-wider text-primary hover:border-accent hover:text-accent transition-all duration-200"
+            className="inline-flex items-center gap-2 rounded-full glass-card px-6 py-3 text-xs font-bold uppercase tracking-wider text-primary hover:text-accent transition-all duration-200"
             onClick={() => setShowFullMatrix(!showFullMatrix)}
             type="button"
           >
@@ -186,7 +185,7 @@ export function Skills() {
               <div className="mb-8 max-w-md">
                 <input
                   aria-label="Filter technical skills"
-                  className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-xs font-mono text-primary placeholder:text-muted focus:border-accent focus:outline-none"
+                  className="w-full rounded-xl border border-border bg-surface/60 backdrop-blur-md px-4 py-2.5 text-xs font-mono text-primary placeholder:text-muted focus:border-accent focus:outline-none"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Filter skills (e.g., Python, Solidity, Docker)..."
                   type="text"
@@ -198,7 +197,7 @@ export function Skills() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredCategories.map((cat) => (
                   <div
-                    className="rounded-2xl border border-border/70 bg-surface p-5"
+                    className="rounded-2xl glass-card p-5"
                     key={cat.category}
                   >
                     <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-accent mb-3">
@@ -207,7 +206,7 @@ export function Skills() {
                     <div className="flex flex-wrap gap-1.5">
                       {cat.items.map((item) => (
                         <span
-                          className="rounded-lg bg-surface-raised px-2.5 py-1 text-xs text-secondary border border-border/50"
+                          className="rounded-lg bg-surface/50 backdrop-blur-sm px-2.5 py-1 text-xs text-secondary border border-border/50"
                           key={item}
                         >
                           {item}
